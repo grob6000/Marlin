@@ -8,6 +8,8 @@
 #ifndef LANGUAGE_RU_H
 #define LANGUAGE_RU_H
 
+#define LANGUAGE_RU
+
 #define WELCOME_MSG                         MACHINE_NAME "Готов."
 #define MSG_SD_INSERTED                     "Карта вставлена"
 #define MSG_SD_REMOVED                      "Карта извлечена"
@@ -86,6 +88,11 @@
 #define MSG_ESTEPS                          "E шаг/mm:"
 #define MSG_TEMPERATURE                     "Температура     \x7E"
 #define MSG_MOTION                          "Скорости        \x7E"
+#define MSG_VOLUMETRIC                      "Filament"
+#define MSG_VOLUMETRIC_ENABLED		        "E in mm3"
+#define MSG_FILAMENT_SIZE_EXTRUDER_0        "Fil. Dia. 1"
+#define MSG_FILAMENT_SIZE_EXTRUDER_1        "Fil. Dia. 2"
+#define MSG_FILAMENT_SIZE_EXTRUDER_2        "Fil. Dia. 3"
 #define MSG_CONTRAST                        "LCD contrast"
 #define MSG_STORE_EPROM                     "Сохранить в EPROM"
 #define MSG_LOAD_EPROM                      "Загруз. из EPROM"
@@ -126,5 +133,13 @@
 #define MSG_ENDSTOP_ABORT                   "Endstop abort"
 
 #define MSG_RECTRACT                        "Откат подачи    \x7E"
+
+#ifdef DELTA_CALIBRATION_MENU
+    #define MSG_DELTA_CALIBRATE             "Delta Calibration"
+    #define MSG_DELTA_CALIBRATE_X           "Calibrate X"
+    #define MSG_DELTA_CALIBRATE_Y           "Calibrate Y"
+    #define MSG_DELTA_CALIBRATE_Z           "Calibrate Z"
+    #define MSG_DELTA_CALIBRATE_CENTER      "Calibrate Center"
+#endif // DELTA_CALIBRATION_MENU
 
 #endif // LANGUAGE_RU_H
