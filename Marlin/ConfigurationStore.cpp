@@ -87,12 +87,12 @@ void Config_StoreSettings()
 #ifdef PID_ADD_EXTRUSION_RATE
   EEPROM_WRITE_VAR(EEPROM_ADDR_KC, Kc);
 #endif // PID_ADD_EXTRUSION_RATE
+#endif//PIDTEMP
 #ifdef PIDTEMPBED
   EEPROM_WRITE_VAR(EEPROM_ADDR_BEDKP, bedKp);
   EEPROM_WRITE_VAR(EEPROM_ADDR_BEDKI, bedKi);
   EEPROM_WRITE_VAR(EEPROM_ADDR_BEDKD, bedKd);
 #endif // PIDTEMPBED
-#endif//PIDTEMP
 #ifdef DOGLCD
   EEPROM_WRITE_VAR(EEPROM_ADDR_LCD_CONTRAST,lcd_contrast);
 #endif//DOGLCD
@@ -327,12 +327,12 @@ void Config_RetrieveSettings()
 #ifdef PID_ADD_EXTRUSION_RATE
     EEPROM_READ_VAR(EEPROM_ADDR_KC, Kc);
 #endif//PID_ADD_EXTRUSION_RATE			
+#endif//PIDTEMP
 #ifdef PIDTEMPBED
     EEPROM_READ_VAR(EEPROM_ADDR_BEDKP, bedKp);
     EEPROM_READ_VAR(EEPROM_ADDR_BEDKI, bedKi);
     EEPROM_READ_VAR(EEPROM_ADDR_BEDKD, bedKd);
 #endif // PIDTEMPBED
-#endif//PIDTEMP
 #ifdef DOGLCD
     EEPROM_READ_VAR(EEPROM_ADDR_LCD_CONTRAST,lcd_contrast);
 #endif // DOGLCD
@@ -429,15 +429,16 @@ void Config_ResetDefault()
     PID_PARAM(Kc, e) = DEFAULT_Kc;
 #endif//PID_ADD_EXTRUSION_RATE
   }
-  #ifdef PIDTEMPBED
-    bedKp = DEFAULT_bedKp;
-    bedKi = scalePID_i(DEFAULT_bedKi);
-    bedKd = scalePID_d(DEFAULT_bedKd);
-  #endif
+#endif//PIDTEMP
+#ifdef PIDTEMPBED
+  bedKp = DEFAULT_bedKp;
+  bedKi = scalePID_i(DEFAULT_bedKi);
+  bedKd = scalePID_d(DEFAULT_bedKd);
+#endif
+#if defined(PIDTEMP) || defined(PIDTEMPBED)
   // call updatePID (similar to when we have processed M301)
   updatePID();
-#endif//PIDTEMP
-
+#endif // defined(PIDTEMP) || defined(PIDTEMPBED)
 #ifdef FWRETRACT
   autoretract_enabled = false;
   retract_length = RETRACT_LENGTH;
