@@ -47,6 +47,9 @@
 #include "language.h"
 #include "pins_arduino.h"
 #include "math.h"
+#ifdef HYSTERESIS_CORRECTION
+  #include "hysteresis.h"
+#endif // HYSTERESIS_CORRECTION
 
 #ifdef BLINKM
 #include "BlinkM.h"
@@ -3573,6 +3576,44 @@ case 404:  //M404 Enter the nominal filament width (3mm, 1.75mm ) N<3.0> or disp
       break;
     }
     #endif // CUSTOM_M_CODE_SET_Z_PROBE_OFFSET
+
+    #ifdef HYSTERESIS_CORRECTION
+    case 599: // M599
+    {
+      if (code_seen('X'))
+      {
+        hysteresis.SetAxis(X_AXIS, code_value());
+      }
+      if (code_seen('Y'))
+      {
+        hysteresis.SetAxis(Y_AXIS, code_value());
+      }
+      if (code_seen('Z'))
+      {
+        hysteresis.SetAxis(Z_AXIS, code_value());
+      }
+      if (code_seen('E'))
+      {
+        hysteresis.SetAxis(E_AXIS, code_value());
+      }
+      float h = 0.0f;
+      SERIAL_PROTOCOL(MSG_OK);
+      SERIAL_PROTOCOL(" x:");
+      h = hysteresis.GetAxis(X_AXIS);
+      SERIAL_PROTOCOL(h);
+      SERIAL_PROTOCOL(" y:");
+      h = hysteresis.GetAxis(Y_AXIS);
+      SERIAL_PROTOCOL(h);
+      SERIAL_PROTOCOL(" z:");
+      h = hysteresis.GetAxis(Z_AXIS);
+      SERIAL_PROTOCOL(h);
+      SERIAL_PROTOCOL(" e:");
+      h = hysteresis.GetAxis(E_AXIS);
+      SERIAL_PROTOCOL(h);
+      SERIAL_PROTOCOLLN("");
+    }
+    break;
+    #endif // HYSTERESIS_CORRECTION
 
     #ifdef FILAMENTCHANGEENABLE
     case 600: //Pause for filament change X[pos] Y[pos] Z[relative lift] E[initial retract] L[later retract distance for removal]

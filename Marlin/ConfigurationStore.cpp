@@ -3,6 +3,9 @@
 #include "temperature.h"
 #include "ultralcd.h"
 #include "ConfigurationStore.h"
+#ifdef HYSTERESIS_CORRECTION
+  #include "hysteresis.h"
+#endif // HYSTERESIS_CORRECTION
 
 #ifdef EEPROM_SETTINGS // these functions will not be called if eeprom settings are disabled
 
@@ -115,6 +118,17 @@ void Config_StoreSettings()
   EEPROM_WRITE_VAR(EEPROM_ADDR_VER, ver2); // validate data
   SERIAL_ECHO_START;
   SERIAL_ECHOLNPGM("Settings Stored");
+#ifdef HYSTERESIS_CORRECTION
+  float h = 0.0f;
+  h = hysteresis.GetAxis(X_AXIS);
+  EEPROM_WRITE_VAR(EEPROM_ADDR_HYSTERESIS_CORRECTION_X, h);
+  h = hysteresis.GetAxis(Y_AXIS);
+  EEPROM_WRITE_VAR(EEPROM_ADDR_HYSTERESIS_CORRECTION_Y, h);
+  h = hysteresis.GetAxis(Z_AXIS);
+  EEPROM_WRITE_VAR(EEPROM_ADDR_HYSTERESIS_CORRECTION_Z, h);
+  h = hysteresis.GetAxis(E_AXIS);
+  EEPROM_WRITE_VAR(EEPROM_ADDR_HYSTERESIS_CORRECTION_E, h);
+#endif // HYSTERESIS_CORRECTION
 }
 
 #endif //EEPROM_SETTINGS
@@ -354,6 +368,14 @@ void Config_RetrieveSettings()
     calculate_volumetric_multipliers();
     // Call updatePID (similar to when we have processed M301)
     updatePID();
+#ifdef HYSTERESIS_CORRECTION
+    float hx = 0.0f, hy = 0.0f, hz = 0.0f, he = 0.0f;
+    EEPROM_READ_VAR(EEPROM_ADDR_HYSTERESIS_CORRECTION_X, hx);
+    EEPROM_READ_VAR(EEPROM_ADDR_HYSTERESIS_CORRECTION_Y, hy);
+    EEPROM_READ_VAR(EEPROM_ADDR_HYSTERESIS_CORRECTION_Z, hz);
+    EEPROM_READ_VAR(EEPROM_ADDR_HYSTERESIS_CORRECTION_E, he);
+    hysteresis.Set(hx, hy, hz, he);
+#endif // HYSTERESIS_CORRECTION
     SERIAL_ECHO_START;
     SERIAL_ECHOLNPGM("Stored settings retrieved");
   }
@@ -459,7 +481,9 @@ void Config_ResetDefault()
 #endif//EXTRUDERS > 2
 #endif//EXTRUDERS > 1
   calculate_volumetric_multipliers();
-
+#ifdef HYSTERESIS_CORRECTION
+  hysteresis.Set(0.0f, 0.0f, 0.0f, 0.0f);
+#endif // HYSTERESIS_CORRECTION
   SERIAL_ECHO_START;
   SERIAL_ECHOLNPGM("Hardcoded Default Settings Loaded");
 
