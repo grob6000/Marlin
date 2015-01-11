@@ -59,17 +59,19 @@ extern float current_temperature_bed;
 
 #ifdef PIDTEMP
   extern float Kp,Ki,Kd,Kc;
+#endif // PIDTEMP
+
+#ifdef PIDTEMPBED
+  extern float bedKp,bedKi,bedKd;
+#endif
+
+#if defined(PIDTEMP) || defined(PIDTEMPBED)  // scaling needed for either extruder or bed PID
   float scalePID_i(float i);
   float scalePID_d(float d);
   float unscalePID_i(float i);
   float unscalePID_d(float d);
+#endif
 
-#endif
-#ifdef PIDTEMPBED
-  extern float bedKp,bedKi,bedKd;
-#endif
-  
-  
 #ifdef BABYSTEPPING
   extern volatile int babystepsTodo[3];
 #endif
