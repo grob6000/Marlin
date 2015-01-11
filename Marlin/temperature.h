@@ -58,7 +58,6 @@ extern float current_temperature_bed;
 #endif
 
 #ifdef PIDTEMP
-
   #ifdef PID_PARAMS_PER_EXTRUDER
     extern float Kp[EXTRUDERS], Ki[EXTRUDERS], Kd[EXTRUDERS], Kc[EXTRUDERS]; // one param per extruder
     #define PID_PARAM(param,e) param[e] // use macro to point to array value
@@ -66,17 +65,19 @@ extern float current_temperature_bed;
     extern float Kp, Ki, Kd, Kc; // one param per extruder - saves 20 or 36 bytes of ram (inc array pointer)
     #define PID_PARAM(param, e) param // use macro to point directly to value
   #endif // PID_PARAMS_PER_EXTRUDER	
+#endif
+
+#ifdef PIDTEMPBED
+  extern float bedKp,bedKi,bedKd;
+#endif
+
+#if defined(PIDTEMP) || defined(PIDTEMPBED)  // scaling needed for either extruder or bed PID
   float scalePID_i(float i);
   float scalePID_d(float d);
   float unscalePID_i(float i);
   float unscalePID_d(float d);
+#endif
 
-#endif
-#ifdef PIDTEMPBED
-  extern float bedKp,bedKi,bedKd;
-#endif
-  
-  
 #ifdef BABYSTEPPING
   extern volatile int babystepsTodo[3];
 #endif

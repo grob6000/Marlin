@@ -1765,7 +1765,7 @@ ISR(TIMER0_COMPB_vect)
 #endif //BABYSTEPPING
 }
 
-#ifdef PIDTEMP
+#if defined(PIDTEMP) || defined(PIDTEMPBED)
 // Apply the scale factors to the PID values
 
 
