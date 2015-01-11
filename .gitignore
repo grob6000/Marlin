@@ -1,16 +1,7 @@
 *.o
-applet/
 *~
 *.orig
 *.rej
 *.bak
-Marlin/Marlin.sdf
-Marlin/Marlin.sdf
-Marlin/Marlin.sln
-Marlin/Marlin.v12.suo
-Marlin/Marlin.vcxproj.filters
-Marlin/Marlin.vcxproj
-Marlin/Visual Micro/.Marlin.vsarduino.h
-Marlin/Visual Micro/Compile.vmps.xml
-Marlin/Visual Micro/Configuration.Debug.vmps.xml
-Marlin/Visual Micro/Upload.vmps.xml
+*.DS_Store
+*.idea
