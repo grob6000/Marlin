@@ -76,10 +76,6 @@
 #define EEPROM_ADDR_HYSTERESIS_CORRECTIONS (EEPROM_OFFSET+264) // size=16
 #define EEPROM_ADDR_NEXT_AVAILABLE (EEPROM_OFFSET+280) // size=0
 
-// Disables reporting of variables using M503: saves some program memory
-// Recommended to retain M503, it is used by some hosts to read EEPROM settings
-//#define DISABLE_M503
-
 void Config_ResetDefault();
 
 #ifndef DISABLE_M503
