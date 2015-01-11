@@ -80,7 +80,6 @@ void Config_StoreSettings()
   EEPROM_WRITE_VAR(EEPROM_ADDR_ZPROBE_ZOFFSET, zprobe_zoffset);
 #endif //ULTIPANEL
 #ifdef PIDTEMP
-  // Note: when PID_PARAMS_PER_EXTRUDER is defined, Kp is array of float[3], otherwise is just float
   EEPROM_WRITE_VAR(EEPROM_ADDR_KP, Kp);
   EEPROM_WRITE_VAR(EEPROM_ADDR_KI, Ki);
   EEPROM_WRITE_VAR(EEPROM_ADDR_KD, Kd);
@@ -211,9 +210,9 @@ void Config_PrintSettings()
   SERIAL_ECHO_START;
   SERIAL_ECHOLNPGM("PID settings:");
   SERIAL_ECHO_START;
-  SERIAL_ECHOPAIR("   M301 P", PID_PARAM(Kp, 0)); // for compatibility with hosts, only echos values for E0
-  SERIAL_ECHOPAIR(" I", unscalePID_i(PID_PARAM(Ki, 0)));
-  SERIAL_ECHOPAIR(" D", unscalePID_d(PID_PARAM(Kd, 0)));
+  SERIAL_ECHOPAIR("   M301 P", Kp); // for compatibility with hosts, only echos values for E0
+  SERIAL_ECHOPAIR(" I", unscalePID_i(Ki));
+  SERIAL_ECHOPAIR(" D", unscalePID_d(Kd));
   SERIAL_ECHOLN("");
 #endif//PIDTEMP
 
@@ -416,19 +415,12 @@ void Config_ResetDefault()
   lcd_contrast = DEFAULT_LCD_CONTRAST;
 #endif//DOGLCD
 #ifdef PIDTEMP
-#ifdef PID_PARAMS_PER_EXTRUDER
-  for (int e = 0; e < EXTRUDERS; e++)
-#else // PID_PARAMS_PER_EXTRUDER
-  int e = 0; // only need to write once
-#endif // PID_PARAMS_PER_EXTRUDER
-  {
-    PID_PARAM(Kp, e) = DEFAULT_Kp;
-    PID_PARAM(Ki, e) = scalePID_i(DEFAULT_Ki);
-    PID_PARAM(Kd, e) = scalePID_d(DEFAULT_Kd);
+  Kp = DEFAULT_Kp;
+  Ki = scalePID_i(DEFAULT_Ki);
+  Kd = scalePID_d(DEFAULT_Kd);
 #ifdef PID_ADD_EXTRUSION_RATE
-    PID_PARAM(Kc, e) = DEFAULT_Kc;
+  Kc = DEFAULT_Kc;
 #endif//PID_ADD_EXTRUSION_RATE
-  }
 #endif//PIDTEMP
 #ifdef PIDTEMPBED
   bedKp = DEFAULT_bedKp;
