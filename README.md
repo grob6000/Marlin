@@ -9,6 +9,7 @@
   * Notes
     * [Auto Bed Leveling](/Documentation/BedLeveling.md)
     * [Filament Sensor](/Documentation/FilamentSensor.md)
+    * [Ramps Servo Power](/Documentation/RampsServoPower.md)
 
 ##### [RepRap.org Wiki Page](http://reprap.org/wiki/Marlin)
 
@@ -40,8 +41,7 @@ The current Marlin dev team consists of:
 
  - Erik van der Zalm ([@ErikZalm](https://github.com/ErikZalm))
  - [@daid](https://github.com/daid)
- - Bo Herrmannsen ([@boelle](https://github.com/boelle))
-
+ 
 Sprinters lead developers are Kliment and caru.
 Grbls lead developer is Simen Svale Skogsrud.
 Sonney Jeon (Chamnit) improved some parts of grbl
